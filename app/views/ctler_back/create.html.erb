@@ -1,0 +1,10 @@
+<h2>Backup Complete!</h2>
+
+<p>result</p>
+<pre>
+  <% @remote_ls.each do |file| %>
+    <%= file %>
+  <% end %>
+</pre>
+
+<%= link_to "Back", :controller => "ctler_back", :action => "index" %>

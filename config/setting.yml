@@ -1,0 +1,12 @@
+# example
+dir:
+  work: /tmp
+  remote: /home/user/redmine_backup
+
+ssh:
+  host: xxx.xxx.xxx.xxx
+  port: 22
+  user: ssh_user
+  password:
+  passphrase:
+  key: /home/user/.ssh/id_dsa

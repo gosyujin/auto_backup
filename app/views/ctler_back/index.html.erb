@@ -1,0 +1,114 @@
+<h2>Backup</h2>
+
+<%= @load_error %>
+
+<h3>Usage</h3>
+
+<h4>Auto</h4>
+
+<ol>
+  <li>add crontab</li>
+</ol>
+<pre>
+30 1 * * * /usr/bin/wget --spider http://REDMINE/projects/PROJECT/auto_backup/create > /dev/null 2>&1
+</pre>
+
+<h4>Manual</h4>
+
+<ol>
+  <li><%= link_to "Test ssh", :controller => "ctler_back", :action => "test" %> <%= @message %></li>
+  <% if @result then %>
+    <li><%= link_to "Manual backup", :controller => "ctler_back", :action => "create" %></li>
+  <% else %>
+    <li>Manual backup AFTER Test ssh</li>
+  <% end %>
+</ol>
+
+<h3>Target</h3>
+
+<h4>Local</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Value</th>
+      <th>Other</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Redmine root</td>
+      <td><%= @redmine_root %></td>
+      <td>Redmine's root</td>
+    </tr>
+    <tr>
+      <td>Backup DB</td>
+      <td>
+        <% @dbs.each do |db| %>
+          <span><%=db["adapter"] %> <%=db["database"] %></span><br />
+        <% end %>
+      </td>
+      <td>Target REDMINE_ROOT/DB</td>
+    </tr>
+    <tr>
+      <td>Backup Files</td>
+      <td><%= @files %></td>
+      <td>Target REDMINE_ROOT/Files</td>
+    </tr>
+    <tr>
+      <td>Working directory</td>
+      <td><%= @work_dir %></td>
+      <td>Working directory</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>Remote</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Value</th>
+      <th>Other</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Host</td>
+      <td><%= @host %></td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Port</td>
+      <td><%= @port %></td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>User</td>
+      <td><%= @user %></td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Password</td>
+      <td><%= @password %></td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Passphrase</td>
+      <td><%= @passphrase %></td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Key</td>
+      <td><%= @key %></td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Remote directory</td>
+      <td><%= @remote_dir %></td>
+      <td>Save directory</td>
+    </tr>
+  </tbody>
+</table>

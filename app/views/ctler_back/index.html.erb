@@ -7,11 +7,8 @@
 <h4>Auto</h4>
 
 <ol>
-  <li>add crontab</li>
+  <li>add crontab rake task</li>
 </ol>
-<pre>
-30 1 * * * /usr/bin/wget --spider http://REDMINE/projects/PROJECT/auto_backup/create > /dev/null 2>&1
-</pre>
 
 <h4>Manual</h4>
 
@@ -49,7 +46,7 @@
           <span><%=db["adapter"] %> <%=db["database"] %></span><br />
         <% end %>
       </td>
-      <td>Target REDMINE_ROOT/DB</td>
+      <td>Target REDMINE_ROOT/db defined database.yml</td>
     </tr>
     <tr>
       <td>Backup Files</td>

@@ -21,7 +21,7 @@
 
 1. add crontab example:
 
-> 30 1 * * * /usr/bin/wget --spider http://REDMINE/projects/PROJECT/auto_backup/create > /dev/null 2>&1
+> 30 1 * * * cd REDMINE_ROOT; /usr/bin/rake auto_backup:run
 
 1. role setting
 

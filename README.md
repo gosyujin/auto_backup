@@ -7,19 +7,16 @@
 
 ## Command
 
-以下のコマンドが実行できること
+以下のコマンドへのPATHが通っていること。
 
-- mysqldump (mysqlの場合)
+- mysqlの場合
+  - mysqldump
 
 # Usage
 
 1. このプラグインを `plugins/` 下にDL
-1. Redmineの `Gemfile` に以下の gem を追記
-
-> gem 'net-scp'
-> gem 'net-ssh'
-
-1. add crontab example:
+1. REDMINE_ROOT で `bundle install`
+1. crontab に以下の Rake タスクを追加(rake する前に REDMINE_ROOT へ移動する)
 
 > 30 1 * * * cd REDMINE_ROOT; /usr/bin/rake auto_backup:run
 

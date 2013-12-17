@@ -36,7 +36,8 @@ module AB
       work_file
     end
 
-    def del_dir(file)
+    # 対象ファイルを削除する
+    def rm_file(file)
       puts "#{Time.now} call #{self.class}##{__method__}"
       FileUtils.rm(file)
     end

@@ -1,6 +1,7 @@
 module AB
   module Config
-    # read and parse Redmine config/database.yml
+    # REDMINE_ROOT/config/database.yml からDBの情報を読み込む
+    # 重複を削除してymlのハッシュを返却
     def get_redmine_db_yml(yml)
       puts "#{Time.now} call #{self.class}##{__method__}"
       db_path = []
@@ -12,7 +13,7 @@ module AB
       db_path.uniq
     end
 
-    # read and parse Plugin config/setting.yml
+    # PLUGIN_ROOT/config/setting.yml から情報を読み込む
     def get_plugin_settings_yml(yml)
       puts "#{Time.now} call #{self.class}##{__method__}"
 

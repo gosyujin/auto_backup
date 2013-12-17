@@ -115,7 +115,7 @@ private
     work_file = AB::FileUtil::move_dir(file, setting["dir"]["work"], mv_flag)
     work_file = AB::FileUtil::compress(work_file)
     remote_ls = AB::SSH::transfer(work_file, setting)
-    AB::FileUtil::del_dir(work_file)
+    AB::FileUtil::rm_file(work_file)
 
     puts "#{Time.now} backup end"
     remote_ls

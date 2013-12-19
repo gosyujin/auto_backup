@@ -1,37 +1,30 @@
+require 'archive/tar/minitar'
+require 'zlib'
+
 module AB
   module FileUtil
-    # 対象ファイルをtarで固める
+    # 対象ファイルをtgzで固める
     # return: tar file path
-    def tar(file)
+    def tgz(file)
       puts "#{Time.now} call #{self.class}##{__method__}"
       basename = File.basename(file)
       dirname = File.dirname(file)
       FileUtils.cd(dirname)
-      `tar cf #{basename}.tar #{basename}`
 
-      "#{file}.tar"
+      tgz = Zlib::GzipWriter.new(File.open("#{basename}.tgz", 'wb'))
+      Archive::Tar::Minitar.pack(basename, tgz)
+#      tgz.close
+
+      "#{file}.tgz"
     end
 
-    # 対象ファイルを圧縮する
-    # return: work_file path + ".gz"
-    def compress(file)
-      puts "#{Time.now} call #{self.class}##{__method__}"
-      `gzip -f #{file}`
-
-      "#{file}.gz"
-    end
-
-    # 対象ファイルをWORK_DIRに移動またはコピーする
+    # 対象ファイルをWORK_DIRに移動する
     # return: work_file path
-    def move_dir(file, work_dir, mv_flag)
+    def move_dir(file, work_dir)
       puts "#{Time.now} call #{self.class}##{__method__}"
       basename = File.basename(file)
       work_file = "#{work_dir}/#{basename}"
-      if mv_flag then
-        FileUtils.mv(file, work_file)
-      else
-        FileUtils.cp(file, work_file)
-      end
+      FileUtils.mv(file, work_file)
 
       work_file
     end

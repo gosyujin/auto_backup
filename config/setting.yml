@@ -1,12 +1,19 @@
 # example
 dir:
+  # work direcroty on local
   work: /tmp
-  remote: /home/user/redmine_backup
+  # backup directory under REDMINE_ROOT
+  backup: [
+    files,
+    plugins,
+    log
+  ]
+  remote: /tmp/redmine_back
 
 ssh:
-  host: xxx.xxx.xxx.xxx
-  port: 22
-  user: ssh_user
-  password:
+  host: localhost
+  port: 2222
+  user: vagrant
+  password: vagrant
   passphrase:
-  key: /home/user/.ssh/id_dsa
+  key: 

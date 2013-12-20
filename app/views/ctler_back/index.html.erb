@@ -50,8 +50,12 @@
     </tr>
     <tr>
       <td>Backup Files</td>
-      <td><%= @files %></td>
-      <td>Target REDMINE_ROOT/Files</td>
+      <td>
+        <% @files.each do |file| %>
+          <span><%=file %></span><br />
+        <% end %>
+      </td>
+      <td>-</td>
     </tr>
     <tr>
       <td>Working directory</td>

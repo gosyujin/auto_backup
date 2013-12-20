@@ -40,18 +40,14 @@ class CtlerBackController < ApplicationController
       end
     end
 
-    # Redmine内のデータ
     @redmine_root = REDMINE_ROOT
+    # database.ymlのデータ
     @dbs = AB::Config::get_redmine_db_yml(DATABASE_YML)
-    if File.exist?("#{REDMINE_ROOT}/files") then
-      @files = "files/"
-    else
-      @files = "files/ is NOT find"
-    end
 
     # setting.ymlのデータ
     setting = AB::Config::get_plugin_settings_yml(SETTING_YML)
     @work_dir   = setting["dir"]["work"]
+    @files      = setting["dir"]["backup"]
     @remote_dir = setting["dir"]["remote"]
     @host       = setting["ssh"]["host"]
     @port       = setting["ssh"]["port"]
@@ -80,7 +76,7 @@ class CtlerBackController < ApplicationController
     puts "#{Time.now} call #{self.class}##{__method__}"
 
     @remote_ls = []
-    # DB バックアップ
+    # DBバックアップ
     dbs = AB::Config::get_redmine_db_yml(DATABASE_YML)
     dbs.each do |db|
       case db["adapter"]
@@ -99,10 +95,12 @@ class CtlerBackController < ApplicationController
       @remote_ls << backup("#{REDMINE_ROOT}/#{db['database']}", origin_del_flag)
     end
 
-    # files/ バックアップ
-    if File.exist?("#{REDMINE_ROOT}/files") then
+    # filesバックアップ
+    setting = AB::Config::get_plugin_settings_yml(SETTING_YML)
+    files = setting["dir"]["backup"]
+    files.each do |file|
       origin_del_flag = false
-      @remote_ls << backup("#{REDMINE_ROOT}/files", origin_del_flag)
+      @remote_ls << backup("#{REDMINE_ROOT}/#{file}", origin_del_flag)
     end
   end
 
@@ -114,14 +112,23 @@ private
     work_file = AB::FileUtil::tgz(file)
     work_file = AB::FileUtil::move_dir(work_file, setting["dir"]["work"])
     remote_ls = AB::SSH::transfer(work_file, setting)
-    AB::FileUtil::rm_file(work_file)
-
-    if origin_del_flag then
-      AB::FileUtil::rm_file(file)
-    end
 
     puts "#{Time.now} backup end"
     remote_ls
+
+  ensure
+    require 'pp'
+    pp "#{work_file} #{origin_del_flag}"
+    unless work_file.nil? then
+      AB::FileUtil::rm_file(work_file)
+    end
+
+    pp "#{file} #{origin_del_flag}"
+    unless file.nil? then
+      if origin_del_flag then
+        AB::FileUtil::rm_file(file)
+      end
+    end
   end
 
   def find_project
